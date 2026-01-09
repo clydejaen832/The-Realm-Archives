@@ -22,7 +22,9 @@ body {
 
 .binary {
     position: absolute;
-    width: 200%;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 200%;
     font-size: 14px;
     letter-spacing: 6px;
@@ -30,6 +32,8 @@ body {
     white-space: pre;
     opacity: 0.25;
     animation: binaryScroll 25s linear infinite, rgbShift 6s infinite;
+    display: flex;
+    flex-direction: column;
 }
 
 @keyframes binaryScroll {
@@ -41,35 +45,6 @@ body {
     0%   { color: #00ff88; }
     33%  { color: #ff0033; }
     66%  { color: #0099ff; }
-    100% { color: #00ff88; }
-}
-
-.code-bg::before {
-    content:
-    "01010001 11001010 01101001 01001111 10101010 00110101\n"
-    "11010101 01010101 00111001 11100010 01010101\n"
-    "01010001 11001010 01101001 01001111 10101010\n"
-    "00110101 11010101 01010101 00111001";
-    position: absolute;
-    width: 200%;
-    height: 200%;
-    white-space: pre-wrap;
-    font-size: 14px;
-    letter-spacing: 6px;
-    line-height: 24px;
-    opacity: 0.25;
-    animation: scroll 20s linear infinite, rgb 6s infinite;
-}
-
-@keyframes scroll {
-    from { transform: translateY(0); }
-    to { transform: translateY(-50%); }
-}
-
-@keyframes rgb {
-    0% { color: #00ff88; }
-    33% { color: #ff0033; }
-    66% { color: #0088ff; }
     100% { color: #00ff88; }
 }
 

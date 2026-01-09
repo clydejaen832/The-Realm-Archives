@@ -12,6 +12,7 @@ function closeModal() {
     document.getElementById("modal").style.display = "none";
 }
 
+// Check passcode
 function checkCode() {
     const input = document.getElementById("passcode").value;
 
@@ -22,14 +23,25 @@ function checkCode() {
         alert("ACCESS DENIED");
     }
 }
-// Generate binary background
-const binaryEl = document.querySelector(".binary");
-let binaryText = "";
 
-for (let i = 0; i < 2000; i++) {
-    binaryText += Math.random() > 0.5 ? "1" : "0";
-    if (i % 8 === 0) binaryText += " ";
-    if (i % 64 === 0) binaryText += "\n";
+// Generate full-screen binary background
+const binaryEl = document.querySelector(".binary");
+
+function generateBinary() {
+    binaryEl.textContent = "";
+    const screenHeight = Math.ceil(window.innerHeight / 24) * 2; 
+    const screenWidth = Math.ceil(window.innerWidth / 10) * 2; 
+
+    for (let i = 0; i < screenHeight; i++) {
+        let line = "";
+        for (let j = 0; j < screenWidth; j++) {
+            line += Math.random() > 0.5 ? "1" : "0";
+        }
+        binaryEl.textContent += line + "\n";
+    }
 }
 
-binaryEl.textContent = binaryText;
+generateBinary();
+
+// Regenerate on window resize
+window.addEventListener("resize", generateBinary);
