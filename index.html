@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The World Archives</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Animated Code Background -->
+    <div class="code-bg"></div>
+
+    <!-- Header -->
+    <header>
+        <h1>THE WORLD ARCHIVES</h1>
+        <p>From the first block placed, to the last world remembered.</p>
+    </header>
+
+    <!-- Era Selection -->
+    <section class="eras">
+        <div class="era" onclick="openModal('ERA I')">
+            <img src="https://i.imgur.com/8ZQZQZQ.png" alt="Era 1">
+            <span>ERA I</span>
+        </div>
+
+        <div class="era" onclick="openModal('ERA II')">
+            <img src="https://i.imgur.com/8ZQZQZQ.png" alt="Era 2">
+            <span>ERA II</span>
+        </div>
+
+        <div class="era" onclick="openModal('ERA III')">
+            <img src="https://i.imgur.com/8ZQZQZQ.png" alt="Era 3">
+            <span>ERA III</span>
+        </div>
+
+        <div class="era" onclick="openModal('CURRENT ERA')">
+            <img src="https://i.imgur.com/8ZQZQZQ.png" alt="Current">
+            <span>CURRENT</span>
+        </div>
+    </section>
+
+    <!-- Passcode Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2 id="eraTitle"></h2>
+            <input type="password" id="passcode" placeholder="Enter Access Code">
+            <button onclick="checkCode()">UNLOCK</button>
+            <p class="hint">
+                The key is not written — it is remembered.  
+                It lies within the world itself, carved into what once stood before it fractured.
+            </p>
+            <span class="close" onclick="closeModal()">✕</span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
