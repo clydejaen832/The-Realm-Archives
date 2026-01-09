@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The World Archives</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -21,15 +20,33 @@
 
     <!-- Eras -->
     <section class="eras">
-        <div class="era" onclick="openModal('ERA I — Aternos')"><span>ERA I</span><small>Aternos</small></div>
-        <div class="era" onclick="openModal('ERA II — Origins')"><span>ERA II</span><small>Origins</small></div>
-        <div class="era" onclick="openModal('ERA III — MCSIMP')"><span>ERA III</span><small>MCSIMP</small></div>
-        <div class="era" onclick="openModal('ERA IV — TerrorCraft')"><span>ERA IV</span><small>TerrorCraft</small></div>
-        <div class="era" onclick="openModal('ERA V — Wickensumph')"><span>ERA V</span><small>Wickensumph</small></div>
-        <div class="era" onclick="openModal('ERA VI — Origins Remastered')"><span>ERA VI</span><small>Origins Remastered</small></div>
+        <div class="era" onclick="openModal('ERA I — Aternos')">
+            <span>ERA I</span>
+            <small>Aternos</small>
+        </div>
+        <div class="era" onclick="openModal('ERA II — Origins')">
+            <span>ERA II</span>
+            <small>Origins</small>
+        </div>
+        <div class="era" onclick="openModal('ERA III — MCSIMP')">
+            <span>ERA III</span>
+            <small>MCSIMP</small>
+        </div>
+        <div class="era" onclick="openModal('ERA IV — TerrorCraft')">
+            <span>ERA IV</span>
+            <small>TerrorCraft</small>
+        </div>
+        <div class="era" onclick="openModal('ERA V — Wickensumph')">
+            <span>ERA V</span>
+            <small>Wickensumph</small>
+        </div>
+        <div class="era" onclick="openModal('ERA VI — Origins Remastered')">
+            <span>ERA VI</span>
+            <small>Origins Remastered</small>
+        </div>
     </section>
 
-    <!-- Era Lock Modal -->
+    <!-- Lock Terminal for Eras -->
     <div id="modal" class="modal">
         <div class="terminal">
             <div class="terminal-header">
@@ -37,14 +54,18 @@
                 <span class="close" onclick="closeModal()">✕</span>
             </div>
             <pre class="code-area">
-01 | // World archive encrypted
-02 | const ACCESS_KEY = "<input type="password" id="passcode" autofocus>";
-03 | if (ACCESS_KEY === TRUE) {
-04 |     unlock_world();
-05 | }
+<span class="line">01 | // World archive encrypted</span>
+<span class="line">02 | const ACCESS_KEY = "</span><input type="password" id="passcode" autofocus><span class="line">";</span>
+<span class="line">03 | if (ACCESS_KEY === TRUE) {</span>
+<span class="line">04 |     unlock_world();</span>
+<span class="line">05 | }</span>
             </pre>
             <button onclick="checkCode()">EXECUTE</button>
-            <p class="hint">The key was never written to be guessed. It was built, lived in, and left behind — hidden within the world before it fractured.</p>
+            <p class="hint">
+                The key was never written to be guessed.  
+                It was built, lived in, and left behind —  
+                hidden within the world before it fractured.
+            </p>
         </div>
     </div>
 
@@ -61,7 +82,7 @@
         </div>
     </div>
 
-    <!-- Sariel Mini-Game Modal -->
+    <!-- Sariel Game Modal -->
     <div id="sarielModal" class="modal">
         <div class="terminal">
             <div class="terminal-header">
@@ -69,8 +90,9 @@
                 <span class="close" onclick="closeSarielGame()">✕</span>
             </div>
             <div id="gameBody">
-                <canvas id="sarielCanvas" width="800" height="400"></canvas>
                 <p>Coins: <span id="coins">0</span>/1000</p>
+                <div id="plantsContainer"></div>
+                <div id="animalsContainer"></div>
                 <button onclick="openShop()">Go to Shop</button>
             </div>
         </div>

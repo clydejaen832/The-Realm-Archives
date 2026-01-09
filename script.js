@@ -1,158 +1,157 @@
-// ====================
-// ERA PASSCODE LOCK
-// ====================
 const CORRECT_CODE = "#W0rld5Bui1t_B4Fr@ctur3d!9Z";
 let currentEra = "";
 
-function closeAllModals(){
-    document.querySelectorAll(".modal").forEach(m=>m.style.display="none");
-    document.querySelector(".ai-terminal").style.display="none";
-}
-
-function openModal(era){
-    closeAllModals();
+function openModal(era) {
     currentEra = era;
-    document.getElementById("eraTitle").innerText = era+" — LOCKED";
-    document.getElementById("modal").style.display = "flex";
-    document.getElementById("passcode").value="";
+    document.getElementById("eraTitle").innerText = era + " — LOCKED";
+    document.getElementById("modal").style.display = "block";
+    document.getElementById("passcode").value = "";
 }
 
-function closeModal(){ document.getElementById("modal").style.display="none"; }
+function closeModal() {
+    document.getElementById("modal").style.display = "none";
+}
 
-function checkCode(){
+// Check passcode
+function checkCode() {
     const input = document.getElementById("passcode").value;
-    if(input===CORRECT_CODE){ alert("ACCESS GRANTED\n"+currentEra); }
-    else{ alert("ACCESS DENIED"); }
+
+    if (input === CORRECT_CODE) {
+        alert("ACCESS GRANTED\n" + currentEra);
+        // future: redirect to era page
+    } else {
+        alert("ACCESS DENIED");
+    }
 }
 
-// ====================
-// AI TERMINAL
-// ====================
-let username="";
-let coins=0;
-function closeAITerminal(){ document.querySelector(".ai-terminal").style.display="none"; }
+// Generate full-screen binary background
+const binaryEl = document.querySelector(".binary");
 
-function submitUsername(){
-    username=document.getElementById("mcUsername").value.trim();
-    if(!username){ alert("You must enter a username."); return; }
-    // TEST: cheat code for 1000 coins
-    if(username===CORRECT_CODE){ coins=1000; alert("Cheat code detected! You now have 1000 coins."); }
-    closeAllModals();
-    document.querySelector(".ai-terminal").style.display="flex";
-    const body=document.getElementById("ai-body");
-    body.innerHTML=`<p>Welcome, ${username}. Choose an Arch Angel to interact with:</p>
-    <div class="angel-list">
-        <button onclick="startSariel()">Sariel — Arch Angel of Progeny</button>
-        <button onclick="lockedAngel('Uriel')">Uriel — Arch Angel of Life</button>
-        <button onclick="lockedAngel('Raphael')">Raphael — Arch Angel of Wisdom</button>
-        <button onclick="lockedAngel('Chamuel')">Chamuel — Arch Angel of Affection</button>
-        <button onclick="lockedAngel('Jophiel')">Jophiel — Arch Angel of Darkness</button>
-        <button onclick="lockedAngel('Seraphiel')">Seraphiel — Arch Angel of Radiance</button>
-        <button onclick="lockedAngel('Michael')">Michael — Arch Angel of Judgement</button>
-    </div>`;
+function generateBinary() {
+    binaryEl.textContent = "";
+    const screenHeight = Math.ceil(window.innerHeight / 24) * 2; 
+    const screenWidth = Math.ceil(window.innerWidth / 10) * 2; 
+
+    for (let i = 0; i < screenHeight; i++) {
+        let line = "";
+        for (let j = 0; j < screenWidth; j++) {
+            line += Math.random() > 0.5 ? "1" : "0";
+        }
+        binaryEl.textContent += line + "\n";
+    }
 }
 
+generateBinary();
+
+// Regenerate on window resize
+window.addEventListener("resize", generateBinary);
+// AI Terminal
+let username = "";
+function closeAITerminal() { document.querySelector(".ai-terminal").style.display="none"; }
+function submitUsername() {
+    username = document.getElementById("mcUsername").value.trim();
+    if(!username){alert("Enter a username."); return;}
+    const body = document.getElementById("ai-body");
+    body.innerHTML = `<p>Welcome, ${username}. Choose an Arch Angel:</p>
+        <div class="angel-list">
+            <button onclick="startSariel()">Sariel — Arch Angel of Progeny</button>
+            <button onclick="lockedAngel('Uriel')">Uriel — Arch Angel of Life</button>
+            <button onclick="lockedAngel('Raphael')">Raphael — Arch Angel of Wisdom</button>
+            <button onclick="lockedAngel('Chamuel')">Chamuel — Arch Angel of Affection</button>
+            <button onclick="lockedAngel('Jophiel')">Jophiel — Arch Angel of Darkness</button>
+            <button onclick="lockedAngel('Seraphiel')">Seraphiel — Arch Angel of Radiance</button>
+            <button onclick="lockedAngel('Michael')">Michael — Arch Angel of Judgement</button>
+        </div>`;
+}
 function lockedAngel(name){
-    const body=document.getElementById("ai-body");
-    body.innerHTML+=`<p><em>${name} has no time for you… Their duties lie beyond mortal concerns.</em></p>`;
+    const body = document.getElementById("ai-body");
+    body.innerHTML += `<p><em>${name} has no time for you… Their duties lie beyond mortal concerns.</em></p>`;
 }
 
-// ====================
-// SARIEL MINI-GAME 8-BIT
-// ====================
-let canvas=document.getElementById("sarielCanvas");
-let ctx=canvas.getContext("2d");
-let SCALE=2;
-canvas.width=800/SCALE;
-canvas.height=400/SCALE;
-ctx.imageSmoothingEnabled=false;
-
-let player={x:50,y:50,width:10,height:10,color:"#00ff88",speed:2};
-const plantsData=[{name:"Carrot",value:1,color:"#ff6600"},{name:"Tomato",value:2,color:"#ff0000"},{name:"Potato",value:3,color:"#d2b48c"},{name:"Corn",value:5,color:"#ffff00"},{name:"Pumpkin",value:7,color:"#ff9933"},{name:"Beetroot",value:8,color:"#990066"},{name:"Apple",value:10,color:"#ff5555"},{name:"Wheat",value:12,color:"#ffff99"},{name:"Melon",value:15,color:"#00cc00"},{name:"Rare Seed",value:20,color:"#cc00ff"}];
-let plants=plantsData.map(p=>({...p,x:Math.random()*(canvas.width-p.width),y:Math.random()*(canvas.height-p.height),width:10,height:10}));
-
-const animalsData=["Sheep","Cow","Chicken"];
-let animals=animalsData.map((a,i)=>({name:a,x:50+i*20,y:300,width:10,height:10,color:"#ffffff"}));
-
-let keys={};
-document.addEventListener("keydown",e=>keys[e.key]=true);
-document.addEventListener("keyup",e=>keys[e.key]=false);
-
-function gameLoop(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    // move
-    if(keys["ArrowUp"]||keys["w"])player.y-=player.speed;
-    if(keys["ArrowDown"]||keys["s"])player.y+=player.speed;
-    if(keys["ArrowLeft"]||keys["a"])player.x-=player.speed;
-    if(keys["ArrowRight"]||keys["d"])player.x+=player.speed;
-    // boundaries
-    player.x=Math.max(0,Math.min(canvas.width-player.width,player.x));
-    player.y=Math.max(0,Math.min(canvas.height-player.height,player.y));
-    // draw player
-    ctx.fillStyle=player.color; ctx.fillRect(player.x,player.y,player.width,player.height);
-    // draw plants
-    plants.forEach(p=>{
-        ctx.fillStyle=p.color; ctx.fillRect(p.x,p.y,p.width,p.height);
-        if(player.x<p.x+p.width && player.x+player.width>p.x && player.y<p.y+p.height && player.y+player.height>p.y){ coins+=p.value; resetPlant(p); }
-    });
-    // draw animals
-    animals.forEach(a=>{
-        ctx.fillStyle=a.color; ctx.fillRect(a.x,a.y,a.width,a.height);
-        if(player.x<a.x+a.width && player.x+player.width>a.x && player.y<a.y+a.height && player.y+player.height>a.y){ coins+=5; a.x=Math.random()*(canvas.width-10); a.y=Math.random()*(canvas.height-10); }
-    });
+// Sariel Mini-Game
+let coins = 0;
+const plants = [
+    {name:"Carrot", value:1},
+    {name:"Tomato", value:2},
+    {name:"Potato", value:3},
+    {name:"Corn", value:5},
+    {name:"Pumpkin", value:7},
+    {name:"Beetroot", value:8},
+    {name:"Apple", value:10},
+    {name:"Wheat", value:12},
+    {name:"Melon", value:15},
+    {name:"Rare Seed", value:20}
+];
+const animals = ["Sheep","Cow","Chicken"];
+let shopItems = [
+    {name:"Watering Can", cost:50, effect:"doubleGrowth"},
+    {name:"Fertilizer", cost:75, effect:"tripleGrowth"},
+    {name:"Magic Hoe", cost:100, effect:"instantHarvest"},
+    {name:"Seedlight Citadel Key", cost:500, effect:"endGame"}
+];
+function startSariel(){
+    document.getElementById("sarielModal").style.display="block";
+    updateGame();
+}
+function closeSarielGame(){
+    document.getElementById("sarielModal").style.display="none";
+}
+function updateGame(){
     document.getElementById("coins").innerText=coins;
-    requestAnimationFrame(gameLoop);
+    const plantDiv = document.getElementById("plantsContainer");
+    plantDiv.innerHTML="";
+    plants.forEach(p=>{
+        const b=document.createElement("button");
+        b.className="plant";
+        b.innerText=p.name+` (+${p.value} coins)`;
+        b.onclick=()=>{coins+=p.value; checkGoal(); updateGame();}
+        plantDiv.appendChild(b);
+    });
+    const animalDiv=document.getElementById("animalsContainer");
+    animalDiv.innerHTML="";
+    animals.forEach(a=>{
+        const b=document.createElement("button");
+        b.className="animal";
+        b.innerText=a+" (Breed +5 coins)";
+        b.onclick=()=>{coins+=5; checkGoal(); updateGame();}
+        animalDiv.appendChild(b);
+    });
+}
+function checkGoal(){
+    if(coins>=1000){
+        alert("You have enough coins! Go to the Shop to buy the Seedlight Citadel Key.");
+    }
 }
 
-function resetPlant(p){ p.x=Math.random()*(canvas.width-p.width); p.y=Math.random()*(canvas.height-p.height); }
-
-function startSariel(){ closeAllModals(); document.getElementById("sarielModal").style.display="flex"; canvas.focus(); requestAnimationFrame(gameLoop); }
-function closeSarielGame(){ document.getElementById("sarielModal").style.display="none"; }
-
-// ====================
-// SHOP
-// ====================
-let shopItems=[{name:"Watering Can",cost:50,effect:"doubleGrowth"},{name:"Fertilizer",cost:75,effect:"tripleGrowth"},{name:"Magic Hoe",cost:100,effect:"instantHarvest"},{name:"Seedlight Citadel Key",cost:500,effect:"endGame"}];
-
+// Shop
 function openShop(){
+    document.getElementById("shopModal").style.display="block";
     const shopDiv=document.getElementById("shopItems");
     shopDiv.innerHTML="";
     shopItems.forEach(item=>{
         const b=document.createElement("button");
         b.innerText=`${item.name} - ${item.cost} coins`;
-        b.onclick=()=>{ if(coins>=item.cost){ coins-=item.cost; if(item.effect==="endGame"){ glitchEffect(); }else{ alert(`${item.name} purchased!`); } closeShop(); } else{ alert("Not enough coins!"); } };
+        b.onclick=()=>{
+            if(coins>=item.cost){
+                coins-=item.cost;
+                updateGame();
+                if(item.effect==="endGame"){
+                    glitchEffect();
+                } else{
+                    alert(`${item.name} purchased!`);
+                }
+                document.getElementById("shopModal").style.display="none";
+            } else{
+                alert("Not enough coins!");
+            }
+        }
         shopDiv.appendChild(b);
     });
-    document.getElementById("shopModal").style.display="flex";
 }
-function closeShop(){ document.getElementById("shopModal").style.display="none"; }
+function closeShop(){document.getElementById("shopModal").style.display="none";}
 
-// ====================
-// GLITCH EFFECT
-// ====================
+// Glitch Effect
 function glitchEffect(){
     document.body.style.filter="blur(3px) invert(1)";
-    setTimeout(()=>{
-        document.body.style.filter="";
-        coins=0;
-        closeSarielGame();
-        alert("The Seedlight Citadel key has been acquired, but reality glitches around you...");
-    },2000);
+    setTimeout(()=>{document.body.style.filter=""; coins=0; closeSarielGame();},2000);
 }
-
-// ====================
-// BINARY BACKGROUND
-// ====================
-const binaryEl=document.querySelector(".binary");
-function generateBinary(){
-    binaryEl.textContent="";
-    const h=Math.ceil(window.innerHeight/24)*2;
-    const w=Math.ceil(window.innerWidth/10)*2;
-    for(let i=0;i<h;i++){
-        let line="";
-        for(let j=0;j<w;j++){ line+=Math.random()>0.5?"1":"0"; }
-        binaryEl.textContent+=line+"\n";
-    }
-}
-generateBinary();
-window.addEventListener("resize",generateBinary);
