@@ -46,7 +46,7 @@
         </div>
     </section>
 
-    <!-- Lock Terminal for Eras -->
+    <!-- Era Lock Modal -->
     <div id="modal" class="modal">
         <div class="terminal">
             <div class="terminal-header">
@@ -82,7 +82,7 @@
         </div>
     </div>
 
-    <!-- Sariel Game Modal -->
+    <!-- Sariel Mini-Game Modal -->
     <div id="sarielModal" class="modal">
         <div class="terminal">
             <div class="terminal-header">
@@ -90,9 +90,8 @@
                 <span class="close" onclick="closeSarielGame()">✕</span>
             </div>
             <div id="gameBody">
+                <canvas id="sarielCanvas" width="800" height="400"></canvas>
                 <p>Coins: <span id="coins">0</span>/1000</p>
-                <div id="plantsContainer"></div>
-                <div id="animalsContainer"></div>
                 <button onclick="openShop()">Go to Shop</button>
             </div>
         </div>
@@ -112,4 +111,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-

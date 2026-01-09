@@ -19,7 +19,7 @@ function checkCode() {
     const input = document.getElementById("passcode").value;
     if (input === CORRECT_CODE) {
         alert("ACCESS GRANTED\n" + currentEra);
-        // future: redirect to era page
+        // Here you could redirect to the era page in the future
     } else {
         alert("ACCESS DENIED");
     }
@@ -60,22 +60,117 @@ function lockedAngel(name) {
 }
 
 // ====================
-// SARIEL MINI-GAME
+// SARIEL MINI-GAME (CANVAS VERSION)
 // ====================
+let canvas = document.getElementById("sarielCanvas");
+let ctx = canvas.getContext("2d");
 let coins = 0;
-const plants = [
-    { name: "Carrot", value: 1 },
-    { name: "Tomato", value: 2 },
-    { name: "Potato", value: 3 },
-    { name: "Corn", value: 5 },
-    { name: "Pumpkin", value: 7 },
-    { name: "Beetroot", value: 8 },
-    { name: "Apple", value: 10 },
-    { name: "Wheat", value: 12 },
-    { name: "Melon", value: 15 },
-    { name: "Rare Seed", value: 20 }
+
+// Player setup
+let player = { x: 50, y: 50, width: 20, height: 20, color: "#00ff88", speed: 4 };
+
+// Plants
+const plantsData = [
+    {name:"Carrot", value:1, color:"#ff6600"},
+    {name:"Tomato", value:2, color:"#ff0000"},
+    {name:"Potato", value:3, color:"#d2b48c"},
+    {name:"Corn", value:5, color:"#ffff00"},
+    {name:"Pumpkin", value:7, color:"#ff9933"},
+    {name:"Beetroot", value:8, color:"#990066"},
+    {name:"Apple", value:10, color:"#ff5555"},
+    {name:"Wheat", value:12, color:"#ffff99"},
+    {name:"Melon", value:15, color:"#00cc00"},
+    {name:"Rare Seed", value:20, color:"#cc00ff"}
 ];
-const animals = ["Sheep", "Cow", "Chicken"];
+
+// Create 10 plant objects with random positions
+let plants = plantsData.map(p => ({
+    ...p,
+    x: Math.random() * (canvas.width-30),
+    y: Math.random() * (canvas.height-30),
+    width: 20,
+    height: 20
+}));
+
+// Animals
+let animalsData = ["Sheep","Cow","Chicken"];
+let animals = animalsData.map((a,i) => ({
+    name:a, x: 50+ i*60, y: 300, width:20, height:20, color:"#ffffff"
+}));
+
+// Key press
+let keys = {};
+document.addEventListener("keydown", e => { keys[e.key] = true; });
+document.addEventListener("keyup", e => { keys[e.key] = false; });
+
+// Game Loop
+function gameLoop(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    // Move player
+    if(keys["ArrowUp"] || keys["w"]) player.y -= player.speed;
+    if(keys["ArrowDown"] || keys["s"]) player.y += player.speed;
+    if(keys["ArrowLeft"] || keys["a"]) player.x -= player.speed;
+    if(keys["ArrowRight"] || keys["d"]) player.x += player.speed;
+
+    // Boundaries
+    player.x = Math.max(0, Math.min(canvas.width-player.width, player.x));
+    player.y = Math.max(0, Math.min(canvas.height-player.height, player.y));
+
+    // Draw player
+    ctx.fillStyle = player.color;
+    ctx.fillRect(player.x, player.y, player.width, player.height);
+
+    // Draw plants
+    plants.forEach(p=>{
+        ctx.fillStyle = p.color;
+        ctx.fillRect(p.x, p.y, p.width, p.height);
+        // Collision
+        if(player.x < p.x + p.width && player.x + player.width > p.x &&
+           player.y < p.y + p.height && player.y + player.height > p.y){
+            coins += p.value;
+            resetPlant(p);
+        }
+    });
+
+    // Draw animals
+    animals.forEach(a=>{
+        ctx.fillStyle = a.color;
+        ctx.fillRect(a.x, a.y, a.width, a.height);
+        // Collision: breed for 5 coins
+        if(player.x < a.x + a.width && player.x + player.width > a.x &&
+           player.y < a.y + a.height && player.y + player.height > a.y){
+            coins += 5;
+            a.x = Math.random() * (canvas.width-30);
+            a.y = Math.random() * (canvas.height-30);
+        }
+    });
+
+    document.getElementById("coins").innerText = coins;
+    requestAnimationFrame(gameLoop);
+}
+
+// Reset plant position after harvesting
+function resetPlant(p){
+    p.x = Math.random() * (canvas.width-30);
+    p.y = Math.random() * (canvas.height-30);
+}
+
+// Start Sariel Game
+function startSariel(){
+    document.getElementById("sarielModal").style.display="block";
+    canvas.focus();
+    requestAnimationFrame(gameLoop);
+}
+
+// Close Sariel Game
+function closeSarielGame(){
+    document.getElementById("sarielModal").style.display="none";
+}
+
+// ====================
+// SHOP
+// ====================
 let shopItems = [
     { name: "Watering Can", cost: 50, effect: "doubleGrowth" },
     { name: "Fertilizer", cost: 75, effect: "tripleGrowth" },
@@ -83,49 +178,6 @@ let shopItems = [
     { name: "Seedlight Citadel Key", cost: 500, effect: "endGame" }
 ];
 
-function startSariel() {
-    document.getElementById("sarielModal").style.display = "block";
-    updateGame();
-}
-
-function closeSarielGame() {
-    document.getElementById("sarielModal").style.display = "none";
-}
-
-// Update game UI
-function updateGame() {
-    document.getElementById("coins").innerText = coins;
-    const plantDiv = document.getElementById("plantsContainer");
-    plantDiv.innerHTML = "";
-    plants.forEach(p => {
-        const b = document.createElement("button");
-        b.className = "plant";
-        b.innerText = `${p.name} (+${p.value} coins)`;
-        b.onclick = () => { coins += p.value; checkGoal(); updateGame(); }
-        plantDiv.appendChild(b);
-    });
-
-    const animalDiv = document.getElementById("animalsContainer");
-    animalDiv.innerHTML = "";
-    animals.forEach(a => {
-        const b = document.createElement("button");
-        b.className = "animal";
-        b.innerText = `${a} (Breed +5 coins)`;
-        b.onclick = () => { coins += 5; checkGoal(); updateGame(); }
-        animalDiv.appendChild(b);
-    });
-}
-
-// Check if player reached goal
-function checkGoal() {
-    if (coins >= 1000) {
-        alert("You have enough coins! Go to the Shop to buy the Seedlight Citadel Key.");
-    }
-}
-
-// ====================
-// SHOP
-// ====================
 function openShop() {
     document.getElementById("shopModal").style.display = "block";
     const shopDiv = document.getElementById("shopItems");
@@ -136,13 +188,12 @@ function openShop() {
         b.onclick = () => {
             if (coins >= item.cost) {
                 coins -= item.cost;
-                updateGame();
                 if (item.effect === "endGame") {
                     glitchEffect();
                 } else {
                     alert(`${item.name} purchased!`);
                 }
-                document.getElementById("shopModal").style.display = "none";
+                closeShop();
             } else {
                 alert("Not enough coins!");
             }
