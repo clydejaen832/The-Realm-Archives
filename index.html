@@ -7,49 +7,71 @@
 </head>
 <body>
 
-    <!-- Animated Code Background -->
+    <!-- Binary Background -->
     <div class="code-bg"></div>
 
     <!-- Header -->
     <header>
         <h1>THE WORLD ARCHIVES</h1>
-        <p>From the first block placed, to the last world remembered.</p>
+        <p>Every world ends. Not every world is remembered.</p>
     </header>
 
-    <!-- Era Selection -->
+    <!-- Eras -->
     <section class="eras">
-        <div class="era" onclick="openModal('ERA I')">
-            <img src="https://i.imgur.com/8ZQZQZQ.png" alt="Era 1">
+        <div class="era" onclick="openModal('ERA I — Aternos')">
             <span>ERA I</span>
+            <small>Aternos</small>
         </div>
 
-        <div class="era" onclick="openModal('ERA II')">
-            <img src="https://i.imgur.com/8ZQZQZQ.png" alt="Era 2">
+        <div class="era" onclick="openModal('ERA II — Origins')">
             <span>ERA II</span>
+            <small>Origins</small>
         </div>
 
-        <div class="era" onclick="openModal('ERA III')">
-            <img src="https://i.imgur.com/8ZQZQZQ.png" alt="Era 3">
+        <div class="era" onclick="openModal('ERA III — MCSIMP')">
             <span>ERA III</span>
+            <small>MCSIMP</small>
         </div>
 
-        <div class="era" onclick="openModal('CURRENT ERA')">
-            <img src="https://i.imgur.com/8ZQZQZQ.png" alt="Current">
-            <span>CURRENT</span>
+        <div class="era" onclick="openModal('ERA IV — TerrorCraft')">
+            <span>ERA IV</span>
+            <small>TerrorCraft</small>
+        </div>
+
+        <div class="era" onclick="openModal('ERA V — Wickensumph')">
+            <span>ERA V</span>
+            <small>Wickensumph</small>
+        </div>
+
+        <div class="era" onclick="openModal('ERA VI — Origins Remastered')">
+            <span>ERA VI</span>
+            <small>Origins Remastered</small>
         </div>
     </section>
 
-    <!-- Passcode Modal -->
+    <!-- Lock Terminal -->
     <div id="modal" class="modal">
-        <div class="modal-content">
-            <h2 id="eraTitle"></h2>
-            <input type="password" id="passcode" placeholder="Enter Access Code">
-            <button onclick="checkCode()">UNLOCK</button>
+        <div class="terminal">
+            <div class="terminal-header">
+                <span id="eraTitle"></span>
+                <span class="close" onclick="closeModal()">✕</span>
+            </div>
+
+            <pre class="code-area">
+<span class="line">01 | // World archive encrypted</span>
+<span class="line">02 | const ACCESS_KEY = "</span><input type="password" id="passcode" autofocus><span class="line">";</span>
+<span class="line">03 | if (ACCESS_KEY === TRUE) {</span>
+<span class="line">04 |     unlock_world();</span>
+<span class="line">05 | }</span>
+            </pre>
+
+            <button onclick="checkCode()">EXECUTE</button>
+
             <p class="hint">
-                The key is not written — it is remembered.  
-                It lies within the world itself, carved into what once stood before it fractured.
+                The key was never written to be guessed.  
+                It was built, lived in, and left behind —  
+                hidden within the world before it fractured.
             </p>
-            <span class="close" onclick="closeModal()">✕</span>
         </div>
     </div>
 
