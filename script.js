@@ -22,3 +22,14 @@ function checkCode() {
         alert("ACCESS DENIED");
     }
 }
+// Generate binary background
+const binaryEl = document.querySelector(".binary");
+let binaryText = "";
+
+for (let i = 0; i < 2000; i++) {
+    binaryText += Math.random() > 0.5 ? "1" : "0";
+    if (i % 8 === 0) binaryText += " ";
+    if (i % 64 === 0) binaryText += "\n";
+}
+
+binaryEl.textContent = binaryText;

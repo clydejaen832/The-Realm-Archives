@@ -17,6 +17,31 @@ body {
     inset: 0;
     z-index: -1;
     overflow: hidden;
+    background: #050607;
+}
+
+.binary {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    font-size: 14px;
+    letter-spacing: 6px;
+    line-height: 24px;
+    white-space: pre;
+    opacity: 0.25;
+    animation: binaryScroll 25s linear infinite, rgbShift 6s infinite;
+}
+
+@keyframes binaryScroll {
+    from { transform: translateY(0); }
+    to { transform: translateY(-50%); }
+}
+
+@keyframes rgbShift {
+    0%   { color: #00ff88; }
+    33%  { color: #ff0033; }
+    66%  { color: #0099ff; }
+    100% { color: #00ff88; }
 }
 
 .code-bg::before {
