@@ -1,228 +1,233 @@
-// ====================
-// ERA PASSCODE LOCK
-// ====================
-const CORRECT_CODE = "#W0rld5Bui1t_B4Fr@ctur3d!9Z";
-let currentEra = "";
-
-function closeOtherModals() {
-    document.querySelectorAll(".modal").forEach(m => m.style.display = "none");
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Courier New', monospace;
 }
 
-function openModal(era) {
-    closeOtherModals();
-    currentEra = era;
-    document.getElementById("eraTitle").innerText = era + " — LOCKED";
-    document.getElementById("modal").style.display = "block";
-    document.getElementById("passcode").value = "";
+body {
+    background: #050607;
+    color: #e5e5e5;
+    overflow: hidden;
 }
 
-function closeModal() {
-    document.getElementById("modal").style.display = "none";
+/* Binary Background */
+.code-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    background: #050607;
 }
 
-function checkCode() {
-    const input = document.getElementById("passcode").value;
-    if (input === CORRECT_CODE) {
-        alert("ACCESS GRANTED\n" + currentEra);
-    } else {
-        alert("ACCESS DENIED");
-    }
+.binary {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 200%;
+    font-size: 14px;
+    letter-spacing: 6px;
+    line-height: 24px;
+    white-space: pre;
+    opacity: 0.25;
+    animation: binaryScroll 25s linear infinite, rgbShift 6s infinite;
+    display: flex;
+    flex-direction: column;
 }
 
-// ====================
-// AI TERMINAL
-// ====================
-let username = "";
-let coins = 0;
-
-function closeAITerminal() {
-    document.querySelector(".ai-terminal").style.display = "none";
+@keyframes binaryScroll {
+    from { transform: translateY(0); }
+    to { transform: translateY(-50%); }
 }
 
-function submitUsername() {
-    username = document.getElementById("mcUsername").value.trim();
-    if (!username) {
-        alert("You must enter a username.");
-        return;
-    }
-
-    // Cheat: enter passcode as username to get 1000 coins
-    if (username === CORRECT_CODE) {
-        coins = 1000;
-        alert("Cheat code detected! You now have 1000 coins.");
-    }
-
-    // Show AI terminal panel
-    document.querySelector(".ai-terminal").style.display = "block";
-    const body = document.getElementById("ai-body");
-    body.innerHTML = `<p>Welcome, ${username}. Choose an Arch Angel to interact with:</p>
-        <div class="angel-list">
-            <button onclick="startSariel()">Sariel — Arch Angel of Progeny</button>
-            <button onclick="lockedAngel('Uriel')">Uriel — Arch Angel of Life</button>
-            <button onclick="lockedAngel('Raphael')">Raphael — Arch Angel of Wisdom</button>
-            <button onclick="lockedAngel('Chamuel')">Chamuel — Arch Angel of Affection</button>
-            <button onclick="lockedAngel('Jophiel')">Jophiel — Arch Angel of Darkness</button>
-            <button onclick="lockedAngel('Seraphiel')">Seraphiel — Arch Angel of Radiance</button>
-            <button onclick="lockedAngel('Michael')">Michael — Arch Angel of Judgement</button>
-        </div>`;
+@keyframes rgbShift {
+    0%   { color: #00ff88; }
+    33%  { color: #ff0033; }
+    66%  { color: #0099ff; }
+    100% { color: #00ff88; }
 }
 
-function lockedAngel(name) {
-    const body = document.getElementById("ai-body");
-    body.innerHTML += `<p><em>${name} has no time for you… Their duties lie beyond mortal concerns.</em></p>`;
+/* Header */
+header {
+    text-align: center;
+    margin-top: 60px;
 }
 
-// ====================
-// SARIEL MINI-GAME 8-BIT
-// ====================
-const canvas = document.getElementById("sarielCanvas");
-const ctx = canvas.getContext("2d");
-
-let player = { x: 50, y: 50, width: 12, height: 12, color: "#00ff88", speed: 2 };
-
-const plantsData = [
-    { name: "Carrot", value: 1, color: "#ff6600" },
-    { name: "Tomato", value: 2, color: "#ff0000" },
-    { name: "Potato", value: 3, color: "#d2b48c" },
-    { name: "Corn", value: 5, color: "#ffff00" },
-    { name: "Pumpkin", value: 7, color: "#ff9933" },
-    { name: "Beetroot", value: 8, color: "#990066" },
-    { name: "Apple", value: 10, color: "#ff5555" },
-    { name: "Wheat", value: 12, color: "#ffff99" },
-    { name: "Melon", value: 15, color: "#00cc00" },
-    { name: "Rare Seed", value: 20, color: "#cc00ff" }
-];
-
-let plants = plantsData.map(p => ({ ...p, x: Math.random() * (canvas.width - 12), y: Math.random() * (canvas.height - 12), width: 12, height: 12 }));
-
-const animalsData = ["Sheep", "Cow", "Chicken"];
-let animals = animalsData.map((a, i) => ({ name: a, x: 60 + i * 30, y: 300, width: 12, height: 12, color: "#ffffff" }));
-
-let keys = {};
-document.addEventListener("keydown", e => keys[e.key] = true);
-document.addEventListener("keyup", e => keys[e.key] = false);
-
-function resetPlant(p) {
-    p.x = Math.random() * (canvas.width - p.width);
-    p.y = Math.random() * (canvas.height - p.height);
+header h1 {
+    font-size: 3rem;
+    letter-spacing: 4px;
 }
 
-function gameLoop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Move player
-    if (keys["ArrowUp"] || keys["w"]) player.y -= player.speed;
-    if (keys["ArrowDown"] || keys["s"]) player.y += player.speed;
-    if (keys["ArrowLeft"] || keys["a"]) player.x -= player.speed;
-    if (keys["ArrowRight"] || keys["d"]) player.x += player.speed;
-
-    // Boundaries
-    player.x = Math.max(0, Math.min(canvas.width - player.width, player.x));
-    player.y = Math.max(0, Math.min(canvas.height - player.height, player.y));
-
-    // Draw player
-    ctx.fillStyle = player.color;
-    ctx.fillRect(player.x, player.y, player.width, player.height);
-
-    // Draw and collect plants
-    plants.forEach(p => {
-        ctx.fillStyle = p.color;
-        ctx.fillRect(p.x, p.y, p.width, p.height);
-        if (player.x < p.x + p.width && player.x + player.width > p.x &&
-            player.y < p.y + p.height && player.y + player.height > p.y) {
-            coins += p.value;
-            resetPlant(p);
-        }
-    });
-
-    // Draw and collect animals
-    animals.forEach(a => {
-        ctx.fillStyle = a.color;
-        ctx.fillRect(a.x, a.y, a.width, a.height);
-        if (player.x < a.x + a.width && player.x + player.width > a.x &&
-            player.y < a.y + a.height && player.y + player.height > a.y) {
-            coins += 5;
-            a.x = Math.random() * (canvas.width - a.width);
-            a.y = Math.random() * (canvas.height - a.height);
-        }
-    });
-
-    document.getElementById("coins").innerText = coins;
-
-    requestAnimationFrame(gameLoop);
+header p {
+    margin-top: 10px;
+    opacity: 0.6;
 }
 
-function startSariel() {
-    closeOtherModals();
-    document.getElementById("sarielModal").style.display = "block";
-    requestAnimationFrame(gameLoop);
+/* Eras */
+.eras {
+    display: grid;
+    grid-template-columns: repeat(3, 200px);
+    gap: 40px;
+    justify-content: center;
+    margin-top: 80px;
 }
 
-function closeSarielGame() {
-    document.getElementById("sarielModal").style.display = "none";
+.era {
+    background: rgba(255,255,255,0.04);
+    padding: 25px;
+    border: 1px solid rgba(0,255,100,0.2);
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-// ====================
-// SHOP
-// ====================
-let shopItems = [
-    { name: "Watering Can", cost: 20, effect: "doubleGrowth" },
-    { name: "Fertilizer", cost: 50, effect: "tripleGrowth" },
-    { name: "Magic Hoe", cost: 80, effect: "instantHarvest" },
-    { name: "Seedlight Citadel Key", cost: 1000, effect: "endGame" }
-];
-
-function openShop() {
-    const shopDiv = document.getElementById("shopItems");
-    shopDiv.innerHTML = "";
-    shopItems.forEach(item => {
-        const b = document.createElement("button");
-        b.innerText = `${item.name} - ${item.cost} coins`;
-        b.onclick = () => {
-            if (coins >= item.cost) {
-                coins -= item.cost;
-                if (item.effect === "endGame") glitchEffect();
-                else alert(`${item.name} purchased!`);
-                closeShop();
-            } else alert("Not enough coins!");
-        };
-        shopDiv.appendChild(b);
-    });
-    document.getElementById("shopModal").style.display = "block";
+.era:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 25px rgba(0,255,100,0.3);
 }
 
-function closeShop() {
-    document.getElementById("shopModal").style.display = "none";
+.era span {
+    display: block;
+    letter-spacing: 3px;
+    font-size: 1.2rem;
 }
 
-// ====================
-// GLITCH EFFECT
-// ====================
-function glitchEffect() {
-    document.body.style.filter = "blur(3px) invert(1)";
-    setTimeout(() => {
-        document.body.style.filter = "";
-        coins = 0;
-        closeSarielGame();
-        alert("The Seedlight Citadel key has been acquired, but reality glitches around you...");
-    }, 2000);
+.era small {
+    display: block;
+    margin-top: 6px;
+    opacity: 0.6;
+    font-size: 0.75rem;
 }
 
-// ====================
-// BINARY BACKGROUND
-// ====================
-const binaryEl = document.querySelector(".binary");
-function generateBinary() {
-    binaryEl.textContent = "";
-    const h = Math.ceil(window.innerHeight / 24) * 2;
-    const w = Math.ceil(window.innerWidth / 10) * 2;
-    for (let i = 0; i < h; i++) {
-        let line = "";
-        for (let j = 0; j < w; j++) {
-            line += Math.random() > 0.5 ? "1" : "0";
-        }
-        binaryEl.textContent += line + "\n";
-    }
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
 }
-generateBinary();
-window.addEventListener("resize", generateBinary);
+
+/* Terminal Lock */
+.terminal {
+    background: #020403;
+    border: 1px solid rgba(0,255,100,0.3);
+    width: 540px;
+    margin: 8% auto;
+    padding: 20px;
+    color: #00ff88;
+}
+
+.terminal-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.code-area {
+    background: #000;
+    padding: 15px;
+    font-size: 0.85rem;
+}
+
+.code-area input {
+    background: none;
+    border: none;
+    outline: none;
+    color: #ff5555;
+    width: 280px;
+    font-family: inherit;
+}
+
+.line {
+    color: #00ff88;
+}
+
+.terminal button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+    background: #00ff88;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.hint {
+    margin-top: 12px;
+    font-size: 0.75rem;
+    opacity: 0.5;
+    font-style: italic;
+}
+
+.close {
+    cursor: pointer;
+}
+/* AI Terminal */
+.ai-terminal {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    background: rgba(0,0,0,0.85);
+    border: 1px solid rgba(0,255,100,0.4);
+    padding: 20px;
+    color: #00ff88;
+    z-index: 999;
+    font-family: 'Courier New', monospace;
+}
+
+.ai-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.ai-body input {
+    width: 70%;
+    padding: 8px;
+    margin-right: 8px;
+    background: none;
+    border: 1px solid #00ff88;
+    color: #00ff88;
+}
+
+.ai-body button {
+    padding: 8px 12px;
+    background: #00ff88;
+    border: none;
+    color: #000;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Sariel Game */
+#plantsContainer, #animalsContainer {
+    margin-top: 10px;
+}
+
+.plant, .animal {
+    display: inline-block;
+    margin: 5px;
+    padding: 5px 8px;
+    border: 1px solid #00ff88;
+    cursor: pointer;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* Shop */
+#shopItems button {
+    display: block;
+    margin: 5px 0;
+    padding: 8px;
+    background: #00ff88;
+    border: none;
+    font-weight: bold;
+    color: #000;
+}
