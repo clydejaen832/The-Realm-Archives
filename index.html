@@ -46,14 +46,13 @@
         </div>
     </section>
 
-    <!-- Lock Terminal -->
+    <!-- Lock Terminal for Eras -->
     <div id="modal" class="modal">
         <div class="terminal">
             <div class="terminal-header">
                 <span id="eraTitle"></span>
                 <span class="close" onclick="closeModal()">✕</span>
             </div>
-
             <pre class="code-area">
 <span class="line">01 | // World archive encrypted</span>
 <span class="line">02 | const ACCESS_KEY = "</span><input type="password" id="passcode" autofocus><span class="line">";</span>
@@ -61,14 +60,52 @@
 <span class="line">04 |     unlock_world();</span>
 <span class="line">05 | }</span>
             </pre>
-
             <button onclick="checkCode()">EXECUTE</button>
-
             <p class="hint">
                 The key was never written to be guessed.  
                 It was built, lived in, and left behind —  
                 hidden within the world before it fractured.
             </p>
+        </div>
+    </div>
+
+    <!-- AI Terminal -->
+    <div class="ai-terminal">
+        <div class="ai-header">
+            <h3>AI Archive Sentinel</h3>
+            <span class="close" onclick="closeAITerminal()">✕</span>
+        </div>
+        <div class="ai-body" id="ai-body">
+            <p>Welcome, Traveler. Enter your Minecraft username to access the Arch Angels:</p>
+            <input type="text" id="mcUsername" placeholder="Your Minecraft username">
+            <button onclick="submitUsername()">ENTER</button>
+        </div>
+    </div>
+
+    <!-- Sariel Game Modal -->
+    <div id="sarielModal" class="modal">
+        <div class="terminal">
+            <div class="terminal-header">
+                <span>Sariel — Arch Angel of Progeny</span>
+                <span class="close" onclick="closeSarielGame()">✕</span>
+            </div>
+            <div id="gameBody">
+                <p>Coins: <span id="coins">0</span>/1000</p>
+                <div id="plantsContainer"></div>
+                <div id="animalsContainer"></div>
+                <button onclick="openShop()">Go to Shop</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shop Modal -->
+    <div id="shopModal" class="modal">
+        <div class="terminal">
+            <div class="terminal-header">
+                <span>Seedlight Citadel Shop</span>
+                <span class="close" onclick="closeShop()">✕</span>
+            </div>
+            <div id="shopItems"></div>
         </div>
     </div>
 

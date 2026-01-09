@@ -164,3 +164,71 @@ header p {
 .close {
     cursor: pointer;
 }
+
+/* AI Terminal */
+.ai-terminal {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    background: rgba(0,0,0,0.85);
+    border: 1px solid rgba(0,255,100,0.4);
+    padding: 20px;
+    color: #00ff88;
+    z-index: 999;
+    font-family: 'Courier New', monospace;
+}
+
+.ai-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.ai-body input {
+    width: 70%;
+    padding: 8px;
+    margin-right: 8px;
+    background: none;
+    border: 1px solid #00ff88;
+    color: #00ff88;
+}
+
+.ai-body button {
+    padding: 8px 12px;
+    background: #00ff88;
+    border: none;
+    color: #000;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Sariel Game */
+#plantsContainer, #animalsContainer {
+    margin-top: 10px;
+}
+
+.plant, .animal {
+    display: inline-block;
+    margin: 5px;
+    padding: 5px 8px;
+    border: 1px solid #00ff88;
+    cursor: pointer;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* Shop */
+#shopItems button {
+    display: block;
+    margin: 5px 0;
+    padding: 8px;
+    background: #00ff88;
+    border: none;
+    font-weight: bold;
+    color: #000;
+}
