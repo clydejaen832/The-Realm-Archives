@@ -12,6 +12,21 @@ function closeModal() {
     document.getElementById("modal").style.display = "none";
 }
 
+function openModal(era) {
+    currentEra = era;
+
+    // If ERA VI, go directly to page
+    if (era.includes("ERA VI")) {
+        window.location.href = "era6.html";
+        return;
+    }
+
+    // Otherwise, show passcode modal
+    document.getElementById("eraTitle").innerText = era + " — LOCKED";
+    document.getElementById("modal").style.display = "block";
+    document.getElementById("passcode").value = "";
+}
+
 // Check passcode
 function checkCode() {
     const input = document.getElementById("passcode").value;

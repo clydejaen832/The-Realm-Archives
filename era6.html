@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ERA VI — Origins Remastered</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: #050607;
+            color: #00ff88;
+            font-family: 'Courier New', monospace;
+        }
+
+        .search-container {
+            max-width: 1000px;
+            margin: 80px auto;
+            text-align: center;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 12px;
+            font-size: 1.1rem;
+            background: #000;
+            border: 1px solid #00ff88;
+            color: #00ff88;
+        }
+
+        button {
+            padding: 12px 20px;
+            margin-left: 10px;
+            background: #00ff88;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            color: #000;
+        }
+
+        #results {
+            margin-top: 40px;
+            text-align: left;
+            background: rgba(0,255,100,0.05);
+            padding: 20px;
+            border: 1px solid rgba(0,255,100,0.2);
+            min-height: 200px;
+            white-space: pre-wrap;
+            overflow-y: auto;
+            max-height: 600px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="search-container">
+    <h1>ERA VI — Origins Remastered</h1>
+    <p>Search the archives for information about this era and the Archangels.</p>
+
+    <input type="text" id="searchInput" placeholder="Type your query...">
+    <button onclick="searchInfo()">SEARCH</button>
+
+    <div id="results">
+        <p>Results will appear here...</p>
+    </div>
+</div>
+
+<script>
+    const loreDatabase = {
+        "origins remastered": `Origins Remastered: the classic world you loved, now bigger, better, and bolder. Team up with friends, tackle new challenges, and explore upgraded lands full of secrets and surprises.`,
+
+        "sariel": `Sariel — Progeny
+
+Domain: Creation, interaction, guidance of mortals
+Description: Sariel is the Archangel of Progeny, tasked with guiding and nurturing life across the server. Once, he often wandered among mortals, interacting freely with players, observing their growth, and subtly shaping events. When he sensed a player’s potential, he might spawn challenges, mobs, or opportunities that allowed them to grow stronger, fostering both courage and ingenuity. However, as the server’s world expanded, Sariel’s duties became stricter and more demanding, forcing him to limit his interactions. Now, he remains a silent guardian in most cases, only stepping into the player’s world in carefully measured ways, balancing guidance with responsibility. His presence is felt more in subtle influences than in direct conversation, a bittersweet restraint for one who once walked freely among the living.`,
+
+        "seraphiel": `Seraphiel — Radiance
+
+Domain: Light, purity, illumination of truth
+Description: Seraphiel governs the essence of radiance and truth, ensuring light penetrates the darkest corners of the world. Ever vigilant, Seraphiel spreads enlightenment and clarity, guiding mortals toward understanding and wisdom. Her domain is unwavering, and her interventions are precise—manifested in moments of revelation, sudden clarity, or the illumination of hidden paths. Seraphiel does not falter, dutifully maintaining balance between light and shadow, favoring those who act with honesty and integrity.`,
+
+        "chamuel": `Chamuel — Affection
+
+Domain: Love, compassion, connection
+Description: Chamuel is the Archangel of Affection, a being of gentle warmth who nurtures bonds between mortals. He ensures that love, empathy, and mutual respect flourish across the realms. Mortals touched by Chamuel’s influence often feel unexpected acts of kindness or find guidance in forming meaningful connections. Chamuel exercises his duties with tender precision, guarding hearts and fostering trust. Though he rarely intervenes in conflicts directly, his presence subtly shapes harmony wherever it is most needed.`,
+
+        "raphael": `Raphael — Wisdom
+
+Domain: Knowledge, insight, guidance
+Description: Raphael embodies wisdom, foresight, and understanding. He watches over mortals who seek knowledge, subtly guiding decisions and shaping the outcomes of their quests. His interventions are rarely overt, instead inspiring insight and strategy through subtle signs or whispered truths. Raphael governs his domain with measured attention, ensuring that learning, discernment, and prudence flourish throughout the server. Those who follow his guidance often find solutions where none seemed possible.`,
+
+        "jophiel": `Jophiel — Shadows
+
+Domain: Secrets, subtlety, protection in darkness
+Description: Jophiel presides over shadows, guarding the unseen and protecting what mortals cannot perceive. He monitors hidden forces, secrets, and the quiet moments where balance must be maintained. Mortals under his subtle influence often notice protection in the unseen, guidance through intuition, or revelations hidden in darkness. Jophiel fulfills his duties without fanfare, ensuring that shadows serve as a tool for wisdom and safety rather than fear or chaos.`,
+
+        "uriel": `Uriel — Life
+
+Domain: Vitality, growth, preservation
+Description: Uriel is the Archangel of Life, responsible for sustaining vitality and nurturing growth. He watches over mortals and creatures alike, maintaining the delicate balance between life and decay. His presence brings renewal, recovery, and the quiet assurance that life continues even in adversity. Uriel’s interventions are subtle but crucial, ensuring that life thrives and that mortals understand the value of preservation, resilience, and harmony.`,
+
+        "michael": `Michael — Judgement
+
+Domain: Justice, order, accountability
+Description: Michael is the Archangel of Judgement, tasked with upholding order and ensuring that actions bear consequences. He governs impartially, rewarding virtue and punishing transgression with unwavering diligence. Mortals influenced by Michael may find that justice prevails in their endeavors, sometimes in ways that seem sudden or unexpected. His authority is absolute, yet tempered with fairness, embodying the principle that all deeds—great or small—will eventually face judgement.`,
+
+        "chronoa": `Chronoa — Time
+
+Domain: Time (speed manipulation, slowing or accelerating events)
+Description: Chronoa governs the relentless flow of time. An ancient and patient entity, it perceives the past, present, and future simultaneously. Those who awaken Chronoa may find their perception of events altered—moments may stretch or compress at will. Its presence bends reality, causing even the simplest actions to ripple through time. Legends say it favors mortals who show both foresight and adaptability, rewarding them with the power to manipulate temporal flow, accelerate growth, or slow foes in combat. Chronoa is enigmatic, never intervening directly, instead observing and nudging mortals toward their potential.`,
+
+        "verdantia": `Verdantia — Life
+
+Domain: Life (regeneration, growth, vitality)
+Description: Verdantia embodies the flourishing of life. It is the essence of growth, healing, and vitality, often appearing as lush, ever-changing forms. Verdantia is drawn to beings who respect life in all forms, from the smallest seed to the grandest forest. Awakening it grants powers of rapid healing, accelerated growth of plants and creatures, and communion with living beings. Verdantia rarely speaks directly but communicates through subtle signs: blooms where it walks, rejuvenation in barren lands, and whispers in the wind. Those chosen must prove they can nurture life, not merely command it.`,
+
+        "umbryx": `Umbryx — Shadow
+
+Domain: Shadow (darkness manipulation, stealth, concealment)
+Description: Umbryx is the embodiment of shadow and obscurity. Patient, calculating, and often perceived as cold, it moves through realms unseen, observing without interference. Its followers can control darkness, vanish into shadows, and manipulate fear in others. Umbryx is intrigued by cunning mortals, those who embrace subtlety and strategy. Awakening it requires proving mastery over concealment, perception, and mental resilience, as it favors those who thrive in ambiguity rather than brute strength.`,
+
+        "entropy": `Entropy — Decay
+
+Domain: Decay (corruption, withering, degradation)
+Description: Entropy rules over the inevitability of decline. It represents the natural decay of matter, the corrosion of strength, and the fragility of existence. Mortals awakened by Entropy gain the ability to weaken structures, wither objects, and erode barriers over time. Its presence is unsettling; its whispers echo the truth that all things must end. Those who attract Entropy’s notice are resilient and daring, capable of understanding destruction as a tool rather than mere chaos. Completing its trials grants dominion over decay itself.`,
+
+        "origen": `Origen — Creation
+
+Domain: Creation (constructing, regenerating blocks, shaping matter)
+Description: Origen is the architect of worlds, the divine hand behind structure and design. Its essence pulses with the ability to shape matter and restore what has been broken. Those who awaken Origen gain the power to recreate objects, forge new structures instantly, and manipulate raw materials. It is drawn to creativity, ingenuity, and those who imagine new possibilities. Origen’s influence extends silently, often leaving traces of its perfection in the natural world or the constructs of mortals it finds intriguing.`,
+
+        "tethys": `Tethys — Water
+
+Domain: Water (control over water, breathing underwater, fluid movement)
+Description: Tethys governs the seas, rivers, and all flowing waters. Fluid and adaptable, it represents the duality of calm and storm. Mortals touched by Tethys can breathe underwater, move with the grace of currents, and command water itself. It favors those who are flexible, resourceful, and in tune with nature’s rhythms. Tethys appears rarely, often as waves shimmering with consciousness, testing mortals’ patience and adaptability before bestowing its gifts.`,
+
+        "zephyra": `Zephyra — Wind
+
+Domain: Wind (control over air, knockback, enhanced movement)
+Description: Zephyra is the embodiment of air and motion, swift and unpredictable. Those who awaken it gain the ability to harness winds, glide or jump greater distances, and unleash gusts to repel enemies. It delights in nimble and daring mortals, valuing agility and ingenuity. Zephyra rarely reveals its full form, appearing as shifting clouds, breezes that guide or hinder, and whispers that carry secrets on the wind. Its lessons often involve precision, timing, and movement, rewarding those who master both speed and strategy.`,
+
+        "pyros": `Pyros — Fire
+
+Domain: Fire (burning, combustion, heat manipulation)
+Description: Pyros embodies flame, passion, and destruction. Its presence warms or scorches, inspiring courage or fear. Those awakened gain control over fire, from lighting infernos to imbuing attacks with heat. Pyros favors bold mortals with strong will and fiery determination, rewarding those unafraid to face danger head-on. Its essence can consume or protect, making it as much a test of temperance as of skill. Legends say Pyros’ flames judge character before granting true mastery.`,
+
+        "terranox": `Terranox — Earth
+
+Domain: Earth (control of ground, defense, slowness manipulation)
+Description: Terranox rules over stone, soil, and all that lies beneath. Solid, immovable, and steadfast, it embodies endurance and stability. Mortals granted Terranox’s favor can manipulate terrain, summon barriers, or slow enemies with crushing weight. It favors patience, strategy, and those who understand the value of foundation and preparation. Terranox’s trials often involve endurance, careful observation, and respect for the immovable forces of nature.`,
+
+        "voltrix": `Voltrix — Storm
+
+Domain: Storm (lightning, electricity, storms)
+Description: Voltrix commands the skies, the raw energy of storms, and lightning strikes. Swift, volatile, and awe-inspiring, it rewards mortals capable of embracing chaos and harnessing energy. Those who awaken Voltrix can summon lightning, manipulate electrical forces, and call storms upon their enemies. It tests courage, adaptability, and decisiveness, choosing mortals bold enough to dance with tempests without being consumed.`
+    };
+
+    function searchInfo() {
+        const query = document.getElementById("searchInput").value.trim().toLowerCase();
+        const results = document.getElementById("results");
+
+        if (!query) {
+            results.innerHTML = "<p>Please type a query.</p>";
+            return;
+        }
+
+        if (loreDatabase[query]) {
+            results.innerHTML = `<pre>${loreDatabase[query]}</pre>`;
+        } else {
+            results.innerHTML = `<p>That information has been sealed by the creator. Only the worthy may uncover it.</p>`;
+        }
+    }
+</script>
+
+</body>
+</html>
