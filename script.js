@@ -88,7 +88,5 @@ function lockedAngel(name){
 // ====================
 function sarielAccess() {
     alert("Sariel: You do not have permission by the Creator to access this AI.");
-    window.location.href = "sariel.html";
+    window.location.href = "sariel.html"; // goes to the character selection page
 }
-<button onclick="sarielAccess()">Sariel — Arch Angel of Progeny</button>
-
