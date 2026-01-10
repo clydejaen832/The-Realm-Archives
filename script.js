@@ -86,12 +86,9 @@ function lockedAngel(name){
 // ====================
 // SARIEL MINI-GAME (LOCKED)
 // ====================
-function startSariel(){
-    document.getElementById("sarielModal").style.display = "block";
-    
-    const gameBody = document.getElementById("gameBody");
-    gameBody.innerHTML = `
-        <p><em>You do not have permission by the creator to access this AI.</em></p>
-        <button onclick="closeSarielGame()">Close</button>
-    `;
+function sarielAccess() {
+    alert("Sariel: You do not have permission by the Creator to access this AI.");
+    window.location.href = "sariel.html";
 }
+<button onclick="sarielAccess()">Sariel — Arch Angel of Progeny</button>
+
