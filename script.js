@@ -60,16 +60,18 @@ generateBinary();
 
 // Regenerate on window resize
 window.addEventListener("resize", generateBinary);
+
 // AI Terminal
 let username = "";
 function closeAITerminal() { document.querySelector(".ai-terminal").style.display="none"; }
+
 function submitUsername() {
     username = document.getElementById("mcUsername").value.trim();
     if(!username){alert("Enter a username."); return;}
     const body = document.getElementById("ai-body");
     body.innerHTML = `<p>Welcome, ${username}. Choose an Arch Angel:</p>
         <div class="angel-list">
-            <button onclick="startSariel()">Sariel — Arch Angel of Progeny</button>
+            <button onclick="sarielAccess()">Sariel — Arch Angel of Progeny</button>
             <button onclick="lockedAngel('Uriel')">Uriel — Arch Angel of Life</button>
             <button onclick="lockedAngel('Raphael')">Raphael — Arch Angel of Wisdom</button>
             <button onclick="lockedAngel('Chamuel')">Chamuel — Arch Angel of Affection</button>
@@ -78,6 +80,7 @@ function submitUsername() {
             <button onclick="lockedAngel('Michael')">Michael — Arch Angel of Judgement</button>
         </div>`;
 }
+
 function lockedAngel(name){
     const body = document.getElementById("ai-body");
     body.innerHTML += `<p><em>${name} has no time for you… Their duties lie beyond mortal concerns.</em></p>`;
