@@ -91,5 +91,5 @@ function lockedAngel(name){
 // ====================
 function sarielAccess() {
     alert("Sariel: You do not have permission by the Creator to access this AI.");
-    window.location.assign("./sariel.html");
+    window.location.assign(window.location.origin + window.location.pathname.replace("index.html","") + "sariel.html");
 }
